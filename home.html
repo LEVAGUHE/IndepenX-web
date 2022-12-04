@@ -20,10 +20,48 @@
   <link id="pagestyle" href="/static/css/text.css" rel="stylesheet" />
 
   <title>IndepenX</title>
+<!-- Cookie -->
+
+ <script>
+  function setCookie(cname,cvalue,exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+  
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+  
+  function checkCookie() {
+    let user = getCookie("username");
+    if (user != "") {
+      alert("Bienvenido de nuevo " + user);
+    } else {
+       user = prompt("Ingrese su nombre:","");
+       if (user != "" && user != null) {
+         setCookie("username", user, 30);
+       }
+    }
+  }
+  </script>
 
 </head>
 
-<body class="g-sidenav-show bg-gray-100">
+<body class="g-sidenav-show bg-gray-100"  onload="checkCookie()">
   <div>
     <!-- Tag include-html para reutilizar código -->
     <div include-html="navbar.html"></div>
@@ -73,5 +111,6 @@
  <!--Mashup Wikimapia
  combina los mapas del buscador Google con un sistema wiki, permitiendo a los usuarios añadir información en forma de notas a cualquier región o localidad del planeta-->>
  <iframe src="http://wikimapia.org/#lat=4.649314&lon=-74.062958&z=12&l=&ifr=1&m=w&tag=84" width="322" height="322" frameborder="0"></iframe>
+
 
 </html>
